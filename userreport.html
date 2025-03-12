@@ -1,0 +1,737 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Cybersecurity Cognitive Abilities Mind Map - Model Player (Interactive Weights Sidebar)&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Basic resets and full-screen container */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>html, body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f7f7f7;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Container that holds everything */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#mindmap-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* The main canvas that we "move" around to simulate a camera */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#canvas {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.8s ease; /* Smooth camera movement */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Each node (ability, construct, or hub) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.node {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>user-select: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 8px rgba(0,0,0,0.2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0; /* Start hidden for fade-in effect */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: opacity 1.5s ease, left 0.8s ease, top 0.8s ease, width 0.8s ease, height 0.8s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.node.visible {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Colors and default sizes */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.ability {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #2196F3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 150px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 150px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.construct {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #4CAF50;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 150px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 150px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hub {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #555;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: default;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 150px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 150px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.node:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.9;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Tooltip styling */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#tooltip {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 300px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(0,0,0,0.8);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 13px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.4;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 9999;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* SVG for connecting lines */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#connection-lines {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pointer-events: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>line {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>stroke: #666;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>stroke-width: 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: stroke 0.3s;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Reset button */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#resetButton {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>right: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 1000;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Weight Panel as a left sidebar */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#weight-panel {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 250px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(255, 255, 255, 0.95);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-right: 1px solid #ccc;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-y: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 1001;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#weight-panel h4 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 0 10px 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.weight-item {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.weight-item label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.weight-item input[type="range"] {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex: 2;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.weight-item span {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 50px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: right;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-left: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="mindmap-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg id="connection-lines"&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="canvas"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="tooltip"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button id="resetButton"&gt;Reset&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="weight-panel" style="display:none;"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* DATA</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Same content as before, with a new "hub" node for Information Security.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const nodes = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "information-security",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "hub",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Information Security",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `A Cybersecurity Analyst plays a crucial role in identifying, analyzing, and mitigating security threats to protect an organization’s digital assets. This role requires a combination of problem-solving, attention to detail, adaptability, decision-making, and information processing to detect and respond to cyber threats in real time. Analysts monitor networks, investigate security incidents, assess vulnerabilities, and implement defensive measures to prevent breaches.</p>
+<p class="p2"><br></p>
+<p class="p1">Given the ever-evolving nature of cyber threats, the role demands constant learning, quick adaptability, and strategic thinking to stay ahead of attackers. Cybersecurity Analysts must balance rapid threat detection with thoughtful risk assessment, ensuring that security solutions are both effective and sustainable. This entry-level position serves as a critical first line of defense, making real-time security decisions and providing recommendations to enhance organizational resilience against cyber threats.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: []</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* ABILITIES */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "problem-solving",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "ability",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Problem-Solving &amp; Analytical Thinking",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to break down complex issues, identify patterns, and develop logical solutions is fundamental in cybersecurity. Analysts must think critically and strategically to understand threats, anticipate vulnerabilities, and devise effective countermeasures.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"deductive-reasoning",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"inductive-reasoning",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"solution-generation",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"evaluation",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"judgment",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"problem-identification"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "attention",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "ability",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Attention &amp; Threat Detection",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `Cybersecurity professionals must maintain sharp focus, quickly identifying threats while filtering out irrelevant noise. A keen attention to detail enables analysts to recognize security risks before they escalate.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"selective-attention",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"pattern-recognition",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"stimulus-detection",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"filtering-distractions",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"inhibitory-control",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"inductive-reasoning",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"task-shifting"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "adaptability",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "ability",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Adaptability &amp; Cognitive Flexibility",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `Cyber threats evolve rapidly, demanding security analysts to shift strategies, update defenses, and modify approaches in response to new attack methods.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"mental-flexibility",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"strategy-shifting",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"behavioral-adaptation",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"problem-identification",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"task-shifting",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"filtering-distractions",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"solution-generation"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "decision-making",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "ability",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Decision-Making &amp; Risk Assessment",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `Cybersecurity professionals must make high-stakes decisions balancing security risks, system integrity, and operational efficiency.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"consequence-evaluation",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"judgment",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"inference",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"evaluation",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"real-time-regulation",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"stimulus-detection",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"inhibitory-control",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"strategy-shifting",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"behavioral-adaptation"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "memory",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "ability",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Information Processing &amp; Memory",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `Cybersecurity professionals must absorb, retain, and recall vast amounts of technical information to respond quickly and accurately to security threats.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"encoding",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"retrieval",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"knowledge-accumulation",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"integration",</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>"storage"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* CONSTRUCTS */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "deductive-reasoning",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Deductive reasoning",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to apply general principles to specific cases to reach logical conclusions. In cybersecurity, professionals use deductive reasoning to apply security frameworks and known threat patterns to new attacks.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["problem-solving"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "inductive-reasoning",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Inductive reasoning",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to identify patterns and infer general principles from specific observations. Cybersecurity analysts rely on inductive reasoning to recognize emerging threats based on anomalies in system logs or historical breach patterns.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["problem-solving", "attention"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "solution-generation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Solution generation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to develop effective and innovative responses to challenges. Problem-solving in cybersecurity requires new defense strategies against evolving attack vectors.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["problem-solving", "adaptability"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "evaluation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Evaluation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to assess the effectiveness, reliability, and efficiency of different approaches. Security teams compare methods (e.g., encryption or firewalls) to optimize defenses.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["problem-solving", "decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "judgment",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Judgment",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to make sound decisions based on available evidence and risk assessment. Cybersecurity professionals must quickly judge whether an alert signals a real threat or a false positive.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["problem-solving", "decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "problem-identification",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Problem identification",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to recognize and define issues before they escalate. Spotting vulnerabilities or weak access controls early can prevent security breaches.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["problem-solving", "adaptability"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "selective-attention",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Selective attention",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to focus on relevant stimuli while ignoring distractions. Cyber analysts must filter real threats from overwhelming system data.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["attention"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "pattern-recognition",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Pattern recognition",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to identify recurring structures or trends within data. Recognizing repeated failed access attempts can help detect brute-force attacks.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["attention"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "stimulus-detection",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Stimulus detection",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to quickly notice changes or anomalies in an environment. Detecting subtle shifts in network traffic can uncover data exfiltration attempts.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["attention", "decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "filtering-distractions",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Filtering distractions",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to maintain focus despite irrelevant or competing information. With constant alerts, professionals must prioritize genuine threats over false positives.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["attention", "adaptability"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "inhibitory-control",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Inhibitory control",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to suppress impulsive reactions or incorrect assumptions. Security analysts must avoid reacting prematurely to an alert without full context.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["attention", "decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "task-shifting",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Task-shifting",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to efficiently transition between multiple ongoing tasks. Security professionals often juggle incident response, monitoring, and compliance checks.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["attention", "adaptability"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "mental-flexibility",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Mental flexibility",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to shift between different ways of thinking or problem-solving approaches. Cybersecurity requires switching between technical troubleshooting and crisis response as needed.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["adaptability"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "strategy-shifting",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Strategy shifting",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to adjust plans and approaches when circumstances change. If attackers bypass traditional defenses, teams must pivot to advanced detection techniques.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["adaptability", "decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "behavioral-adaptation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Behavioral adaptation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to modify one’s actions based on new information. Security teams must continually adjust policies to align with evolving threats and compliance requirements.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["adaptability", "decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "consequence-evaluation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Consequence evaluation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to foresee possible outcomes before taking action. Security professionals must weigh the impact of blocking traffic against the risk of an undetected attack.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "inference",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Inference",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to draw conclusions from incomplete or indirect information. Analysts must infer an undetected attacker’s presence from subtle system anomalies.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "real-time-regulation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Real-time regulation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to make quick, high-stakes decisions under pressure. During an active breach, analysts must decide immediate containment strategies.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["decision-making"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "encoding",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Encoding",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to store new information in memory for future retrieval. Security professionals must remember encryption standards and attack vectors.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["memory"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "retrieval",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Retrieval",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to recall stored information when needed. During an incident, analysts must quickly remember command-line procedures.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["memory"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "knowledge-accumulation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Knowledge accumulation",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to build expertise over time through continuous learning. Cybersecurity professionals expand their knowledge of new vulnerabilities and techniques.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["memory"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "integration",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Integration",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to connect and synthesize information from multiple sources. Linking logs from various tools creates a comprehensive security picture.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["memory"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: "storage",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: "construct",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name: "Storage",</p>
+<p class="p1"><span class="Apple-converted-space">                </span>definition: `The ability to maintain long-term knowledge of technical concepts and frameworks. Understanding protocols and regulations is essential for effective operations.`,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>connections: ["memory"]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* GLOBALS &amp; DOM REFS</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const canvas = document.getElementById('canvas');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tooltip = document.getElementById('tooltip');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const svg = document.getElementById('connection-lines');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const resetButton = document.getElementById('resetButton');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const weightPanel = document.getElementById('weight-panel');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Global object to store weights for latent constructs for each cognitive ability.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Structure: { [abilityId]: { [constructId]: weightValue } }</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let abilityWeights = {};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/** Store references to created DOM elements for each node. */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const domNodes = new Map();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/** The node currently "in focus" (center). Null means we're in the initial state. */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let centerNodeId = null;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* INITIAL RENDER: SHOW HUB + ABILITIES</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderInitialAbilities() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>canvas.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>svg.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>weightPanel.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>domNodes.clear();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>centerNodeId = null;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const centerX = window.innerWidth / 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const centerY = window.innerHeight / 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const hubNode = getNodeById("information-security");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const hubEl = createNodeElement(hubNode);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>hubEl.style.left = (centerX - 75) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>hubEl.style.top = (centerY - 75) + 'px';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const abilities = nodes.filter(n =&gt; n.type === 'ability');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const radius = 250;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const angleStep = (2 * Math.PI) / abilities.length;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>abilities.forEach((ability, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const angle = index * angleStep;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const x = centerX + radius * Math.cos(angle);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const y = centerY + radius * Math.sin(angle);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const el = createNodeElement(ability);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>el.style.left = (x - 75) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>el.style.top = (y - 75) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* FOCUS A NODE: Center node and reveal its neighbors.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* If it's an ability, initialize and display the weight panel.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function focusNode(nodeId) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>centerNodeId = nodeId;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>canvas.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>svg.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>domNodes.clear();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>weightPanel.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>weightPanel.style.display = 'none';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const centerNode = getNodeById(nodeId);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const centerEl = createNodeElement(centerNode);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>centerEl.style.left = (window.innerWidth / 2 - 75) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>centerEl.style.top = (window.innerHeight / 2 - 75) + 'px';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (centerNode.type === "ability") {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const neighborIds = centerNode.connections;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const count = neighborIds.length;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const defaultWeight = 100 / count;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (!abilityWeights[centerNode.id]) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>abilityWeights[centerNode.id] = {};</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>neighborIds.forEach(connId =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>abilityWeights[centerNode.id][connId] = defaultWeight;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>createWeightPanel(centerNode.id, neighborIds);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const neighbors = neighborIds.map(getNodeById);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const angleStep = (2 * Math.PI) / Math.max(neighbors.length, 1);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const radius = 300;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>neighbors.forEach((neighbor, i) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const angle = i * angleStep;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const weightValue = abilityWeights[centerNode.id][neighbor.id];</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const scale = weightValue / defaultWeight;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const baseSize = 150;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const newSize = baseSize * scale;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const nx = (window.innerWidth / 2) + radius * Math.cos(angle) - newSize / 2;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const ny = (window.innerHeight / 2) + radius * Math.sin(angle) - newSize / 2;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const neighborEl = createNodeElement(neighbor);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>neighborEl.style.width = newSize + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>neighborEl.style.height = newSize + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>neighborEl.style.left = nx + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>neighborEl.style.top = ny + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>drawLines(centerEl, centerNode.connections.map(connId =&gt; domNodes.get(connId)));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const neighborIds = centerNode.connections;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const neighbors = neighborIds.map(getNodeById);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const angleStep = (2 * Math.PI) / Math.max(neighbors.length, 1);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const radius = 300;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>neighbors.forEach((neighbor, i) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const angle = i * angleStep;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const nx = (window.innerWidth / 2) + radius * Math.cos(angle);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const ny = (window.innerHeight / 2) + radius * Math.sin(angle);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const neighborEl = createNodeElement(neighbor);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>neighborEl.style.left = (nx - 75) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>neighborEl.style.top = (ny - 75) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>drawLines(centerEl, neighbors.map(n =&gt; domNodes.get(n.id)));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* CREATE WEIGHT PANEL:</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* For the focused ability, create a slider for each latent construct.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function createWeightPanel(abilityId, constructIds) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>weightPanel.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>weightPanel.innerHTML = `&lt;h4&gt;Adjust Latent Construct Weights&lt;/h4&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>constructIds.forEach(constructId =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const weight = abilityWeights[abilityId][constructId];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const div = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>div.className = 'weight-item';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>div.innerHTML = `&lt;label for="${constructId}"&gt;${getNodeById(constructId).name}&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;input type="range" id="${constructId}" min="0" max="100" step="5" value="${weight}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;span id="val-${constructId}"&gt;${weight.toFixed(0)}%&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>weightPanel.appendChild(div);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const slider = div.querySelector('input[type="range"]');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>slider.addEventListener('input', (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>adjustWeights(abilityId, constructId, parseFloat(e.target.value));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* ADJUST WEIGHTS:</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* When one slider changes, re-normalize the others so the total is 100.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function adjustWeights(abilityId, changedConstructId, newValue) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const weights = abilityWeights[abilityId];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const constructIds = Object.keys(weights);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>weights[changedConstructId] = newValue;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const otherIds = constructIds.filter(id =&gt; id !== changedConstructId);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const otherTotal = otherIds.reduce((sum, id) =&gt; sum + weights[id], 0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const remaining = 100 - newValue;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (otherTotal === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>otherIds.forEach(id =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>weights[id] = remaining / otherIds.length;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>otherIds.forEach(id =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>weights[id] = weights[id] / otherTotal * remaining;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>constructIds.forEach(id =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const slider = document.getElementById(id);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const span = document.getElementById("val-" + id);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (slider) slider.value = weights[id];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (span) span.innerText = weights[id].toFixed(0) + "%";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>focusNode(abilityId);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* CREATE NODE ELEMENT, ADD EVENT LISTENERS, APPLY FADE-IN</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Updated to include touch events:</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* - A quick tap displays the tooltip (nested information).</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* - A long press (600ms) triggers the focus action.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function createNodeElement(node) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (domNodes.has(node.id)) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return domNodes.get(node.id);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const el = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.classList.add('node');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (node.type === 'ability') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>el.classList.add('ability');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (node.type === 'construct') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>el.classList.add('construct');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>el.classList.add('hub');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.dataset.id = node.id;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.innerText = node.name;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Desktop mouse events:</p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.addEventListener('mouseenter', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tooltip.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tooltip.textContent = node.definition;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.addEventListener('mousemove', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tooltip.style.left = (e.pageX + 10) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tooltip.style.top = (e.pageY + 10) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.addEventListener('mouseleave', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tooltip.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.addEventListener('click', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>e.stopPropagation();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (node.type !== 'hub') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (centerNodeId === null || node.id !== centerNodeId) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>focusNode(node.id);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Mobile touch events:</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let touchTimer = null;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const longPressDuration = 600; // milliseconds</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.addEventListener('touchstart', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>e.preventDefault(); // Prevent emulated mouse events</p>
+<p class="p1"><span class="Apple-converted-space">                </span>touchTimer = setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Long press: trigger focus</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (node.type !== 'hub') {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if (centerNodeId === null || node.id !== centerNodeId) {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>focusNode(node.id);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>touchTimer = null;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}, longPressDuration);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Immediately display tooltip on touch</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tooltip.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tooltip.textContent = node.definition;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (e.touches &amp;&amp; e.touches.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tooltip.style.left = (e.touches[0].pageX + 10) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tooltip.style.top = (e.touches[0].pageY + 10) + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.addEventListener('touchend', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (touchTimer) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>clearTimeout(touchTimer);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>touchTimer = null;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; { tooltip.style.display = 'none'; }, 500);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>el.addEventListener('touchcancel', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (touchTimer) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>clearTimeout(touchTimer);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>touchTimer = null;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tooltip.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>canvas.appendChild(el);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>domNodes.set(node.id, el);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>el.classList.add('visible');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 50);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return el;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* DRAW LINES FROM CENTER TO NEIGHBOR ELEMENTS</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function drawLines(centerElem, neighborElems) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>svg.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const cRect = centerElem.getBoundingClientRect();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const cx = cRect.left + cRect.width / 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const cy = cRect.top + cRect.height / 2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>neighborElems.forEach(neEl =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const nRect = neEl.getBoundingClientRect();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const nx = nRect.left + nRect.width / 2;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const ny = nRect.top + nRect.height / 2;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const line = document.createElementNS("http://www.w3.org/2000/svg", "line");</p>
+<p class="p1"><span class="Apple-converted-space">                </span>line.setAttribute("x1", cx);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>line.setAttribute("y1", cy);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>line.setAttribute("x2", nx);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>line.setAttribute("y2", ny);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>svg.appendChild(line);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* UTILITY: GET NODE BY ID</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function getNodeById(id) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return nodes.find(n =&gt; n.id === id);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* HANDLE WINDOW RESIZE: Re-render state accordingly.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('resize', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (centerNodeId === null) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>renderInitialAbilities();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>focusNode(centerNodeId);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/************************************************************************</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* INIT: Set initial state and add reset button listener.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>************************************************************************/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('DOMContentLoaded', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderInitialAbilities();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>resetButton.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderInitialAbilities();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
